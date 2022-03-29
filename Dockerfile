@@ -1,5 +1,6 @@
 FROM ubuntu:xenial
 MAINTAINER Mitchell Hewes <me@mitcdh.com>
+LABEL org.opencontainers.image.source=https://github.com/apnar/docker-image-nfs-ganesha
 
 # install prerequisites
 RUN DEBIAN_FRONTEND=noninteractive \
