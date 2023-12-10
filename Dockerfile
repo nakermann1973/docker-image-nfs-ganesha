@@ -18,7 +18,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && mkdir /tmp/build \
  && cd tmp/build \
  && apt-get source nfs-ganesha \
- && apt-get -y build-dep nfs-ganesha
+ && apt-get -y build-dep nfs-ganesha \
+ && apt-get -y install libntirpc-dev
 
 COPY no_tcmalloc.patch /tmp/
 RUN export DEBIAN_FRONTEND=noninteractive \
