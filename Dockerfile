@@ -14,10 +14,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
  && apt-get install -y netbase nfs-common dbus nfs-ganesha nfs-ganesha-vfs glusterfs-common nfs-ganesha-gluster \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
- && mkdir -p /run/rpcbind /export /var/run/dbus \
- && touch /run/rpcbind/rpcbind.xdr /run/rpcbind/portmap.xdr \
- && chmod 755 /run/rpcbind/* \
- && chown messagebus:messagebus /var/run/dbus
+ && mkdir -p /run/sendsigs.omit.d \
+ && mkdir -p /var/run/ganesha
 
 # Add startup script
 COPY start.sh /
