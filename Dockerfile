@@ -1,8 +1,42 @@
+FROM ubuntu:jammy as build
+ARG DEBIAN_FRONTEND=noninteractive
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
+ && apt-get install -y gnupg \
+ && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FE869A9 \
+ && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 10353E8834DC57CA \
+ && echo "deb http://ppa.launchpad.net/nfs-ganesha/nfs-ganesha-5/ubuntu jammy main" > /etc/apt/sources.list.d/nfs-ganesha-5.list \
+ && echo "deb-src http://ppa.launchpad.net/nfs-ganesha/nfs-ganesha-5/ubuntu jammy main" >> /etc/apt/sources.list.d/nfs-ganesha-5.list \
+ && echo "deb http://ppa.launchpad.net/nfs-ganesha/libntirpc-5/ubuntu jammy main" > /etc/apt/sources.list.d/libntirpc-5.list \
+ && echo "deb http://ppa.launchpad.net/gluster/glusterfs-10/ubuntu jammy main" > /etc/apt/sources.list.d/glusterfs-10.list\
+ && apt-get update \
+ && ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime \
+ && apt-get -y install dpkg-dev build-essential fakeroot devscripts \
+ && apt-get install -y netbase nfs-common dbus glusterfs-common ceph-common 
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && mkdir /tmp/build \
+ && cd tmp/build \
+ && apt-get source nfs-ganesha \
+ && apt-get -y build-dep nfs-ganesha
+
+COPY no_tcmalloc.patch /tmp/
+RUN export DEBIAN_FRONTEND=noninteractive \
+  && cd nfs-ganesha-5.? \
+  && patch -p0 < /tmp/no_tcmalloc.patch \
+  && debuild -b -uc -us \
+  && cd .. \
+  && mkdir -p /tmp/pkgs \
+  && cp *.deb /tmp/pkgs
+   
+
 FROM ubuntu:jammy
 MAINTAINER Chris Picton <chris@picton.nom.za>
 
+COPY --from=build /tmp/pkgs /tmp/pkgs
+
 # install prerequisites
-RUN DEBIAN_FRONTEND=noninteractive \
+RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
  && apt-get install -y gnupg \
  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FE869A9 \
@@ -11,7 +45,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
  && echo "deb http://ppa.launchpad.net/nfs-ganesha/libntirpc-5/ubuntu jammy main" > /etc/apt/sources.list.d/libntirpc-5.list \
  && echo "deb http://ppa.launchpad.net/gluster/glusterfs-10/ubuntu jammy main" > /etc/apt/sources.list.d/glusterfs-10.list\
  && apt-get update \
- && apt-get install -y netbase nfs-common dbus nfs-ganesha nfs-ganesha-vfs glusterfs-common nfs-ganesha-gluster \
+ && apt-get install -y netbase nfs-common dbus glusterfs-common \
+ && apt install /tmp/pkgs/nfs_ganesha_*.deb nfs-ganesha-vfs_*.deb nfs-ganesha-gluster_*.deb \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
  && mkdir -p /run/sendsigs.omit.d \
