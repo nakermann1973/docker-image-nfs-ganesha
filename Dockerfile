@@ -11,15 +11,14 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && echo "deb http://ppa.launchpad.net/gluster/glusterfs-10/ubuntu jammy main" > /etc/apt/sources.list.d/glusterfs-10.list\
  && apt-get update \
  && ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime \
- && apt-get -y install dpkg-dev build-essential fakeroot devscripts \
+ && apt-get -y install dpkg-dev build-essential fakeroot devscripts libntirpc-dev \
  && apt-get install -y netbase nfs-common dbus glusterfs-common ceph-common 
 
 RUN export DEBIAN_FRONTEND=noninteractive \
  && mkdir /tmp/build \
  && cd tmp/build \
  && apt-get source nfs-ganesha \
- && apt-get -y build-dep nfs-ganesha \
- && apt-get -y install libntirpc-dev
+ && apt-get -y build-dep nfs-ganesha 
 
 COPY no_tcmalloc.patch /tmp/
 RUN export DEBIAN_FRONTEND=noninteractive \
