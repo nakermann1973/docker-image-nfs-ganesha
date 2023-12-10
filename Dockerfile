@@ -1,15 +1,14 @@
-FROM ubuntu:xenial
-MAINTAINER Mitchell Hewes <me@mitcdh.com>
-LABEL org.opencontainers.image.source=https://github.com/apnar/docker-image-nfs-ganesha
+FROM ubuntu:jammy
+MAINTAINER Chris Picton <chris@picton.nom.za>
 
 # install prerequisites
 RUN DEBIAN_FRONTEND=noninteractive \
  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FE869A9 \
- && echo "deb http://ppa.launchpad.net/gluster/nfs-ganesha-2.7/ubuntu xenial main" > /etc/apt/sources.list.d/nfs-ganesha-2.7.list \
- && echo "deb http://ppa.launchpad.net/gluster/libntirpc-1.7/ubuntu xenial main" > /etc/apt/sources.list.d/libntirpc-1.7.list \
- && echo "deb http://ppa.launchpad.net/gluster/glusterfs-10/ubuntu xenial main" > /etc/apt/sources.list.d/glusterfs-10.list \
+ && echo "deb http://ppa.launchpad.net/nfs-ganesha/nfs-ganesha-5/ubuntu jammy main" > /etc/apt/sources.list.d/nfs-ganesha-5.list \
+ && echo "deb http://ppa.launchpad.net/nfs-ganesha/libntirpc-5/ubuntu jammy main" > /etc/apt/sources.list.d/libntirpc-5.list \
+ && echo "deb http://ppa.launchpad.net/gluster/glusterfs-10/ubuntu jammy main" > /etc/apt/sources.list.d/glusterfs-10.list\
  && apt-get update \
- && apt-get install -y netbase nfs-common dbus nfs-ganesha nfs-ganesha-vfs glusterfs-common \
+ && apt-get install -y netbase nfs-common dbus nfs-ganesha nfs-ganesha-vfs glusterfs-common nfs-ganesha-gluster \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
  && mkdir -p /run/rpcbind /export /var/run/dbus \
