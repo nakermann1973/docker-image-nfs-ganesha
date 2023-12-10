@@ -46,7 +46,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && echo "deb http://ppa.launchpad.net/gluster/glusterfs-10/ubuntu jammy main" > /etc/apt/sources.list.d/glusterfs-10.list\
  && apt-get update \
  && apt-get install -y netbase nfs-common dbus glusterfs-common \
- && fuind /tmp/pkgs \
+ && find /tmp/pkgs \
  && apt install /tmp/pkgs/nfs_ganesha_*.deb nfs-ganesha-vfs_*.deb nfs-ganesha-gluster_*.deb \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
