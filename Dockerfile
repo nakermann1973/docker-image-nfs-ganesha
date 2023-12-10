@@ -47,7 +47,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
  && apt-get install -y netbase nfs-common dbus glusterfs-common \
  && find /tmp/pkgs \
- && apt install /tmp/pkgs/nfs_ganesha_*.deb nfs-ganesha-vfs_*.deb nfs-ganesha-gluster_*.deb \
+ && apt install /tmp/pkgs/nfs-ganesha_*.deb nfs-ganesha-vfs_*.deb nfs-ganesha-gluster_*.deb \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
  && mkdir -p /run/sendsigs.omit.d \
