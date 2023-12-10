@@ -22,7 +22,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 COPY no_tcmalloc.patch /tmp/
 RUN export DEBIAN_FRONTEND=noninteractive \
-  && cd nfs-ganesha-5.? \
+  && cd /tmp/build/nfs-ganesha-5.? \
   && patch -p0 < /tmp/no_tcmalloc.patch \
   && debuild -b -uc -us \
   && cd .. \
