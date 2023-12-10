@@ -1,0 +1,11 @@
+--- debian.orig/rules	2023-11-06 13:12:33.000000000 +0100
++++ debian/rules	2023-12-10 16:44:45.570935717 +0100
+@@ -26,6 +26,7 @@
+ 		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+ 		-DLIB_INSTALL_DIR:STRING=lib/${DEB_HOST_MULTIARCH} \
+ 		-DFSAL_DESTINATION=/usr/lib/${DEB_HOST_MULTIARCH}/ganesha \
++		-DALLOCATOR=libc \
+ 		-DUSE_FSAL_NULL=YES \
+ 		-DUSE_FSAL_MEM=YES \
+ 		-DUSE_FSAL_XFS=NO \
+
