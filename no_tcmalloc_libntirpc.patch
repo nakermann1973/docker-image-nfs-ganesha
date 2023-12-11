@@ -1,0 +1,12 @@
+--- debian.orig/rules	2023-12-11 08:47:18.852648574 +0100
++++ debian/rules	2023-12-11 08:46:54.105907653 +0100
+@@ -7,7 +7,7 @@
+ 
+ override_dh_auto_configure:
+ 	cd cmake/build_configurations && ln -s everything.cmake debian.cmake
+-	dh_auto_configure -- -DBUILD_CONFIG=debian -DTIRPC_EPOLL=1 -DUSE_GSS=ON
++	dh_auto_configure -- -DBUILD_CONFIG=debian -DTIRPC_EPOLL=1 -DUSE_GSS=ON -DALLOCATOR=libc
+ 
+ DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+ override_dh_install:
+

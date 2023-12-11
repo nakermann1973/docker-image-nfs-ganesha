@@ -1,0 +1,12 @@
+--- debian.orig/rules	2023-12-11 08:51:34.076747779 +0100
++++ debian/rules	2023-12-11 08:51:04.179991394 +0100
+@@ -5,7 +5,7 @@
+ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+ 
+ DEB_CONFIGURE_EXTRA_FLAGS := \
+-	--enable-firewalld --disable-gnfs --libexecdir=/usr/libexec
++	--enable-firewalld --disable-gnfs --libexecdir=/usr/libexec --without-tcmalloc
+ 
+ %:
+ 	dh $@ --parallel --with python3 --with autotools-dev
+
